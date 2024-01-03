@@ -22,16 +22,18 @@ Instance Variables
 	the item. It is a decimal representation of a 32-bit unsigned integer.
 "
 Class {
-	#name : #MDCountCommand,
-	#superclass : #MDCommand,
+	#name : 'MDCountCommand',
+	#superclass : 'MDCommand',
 	#instVars : [
 		'key',
 		'value'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDCountCommand >> decodeResponse: aByteArray [
 	super decodeResponse: aByteArray.
 	aByteArray = (ByteArray withAll: #(78 79 84 95 70 79 85 78 68)) "'NOT_FOUND' asByteArray"
@@ -39,28 +41,28 @@ MDCountCommand >> decodeResponse: aByteArray [
 	^protocol decodeUnsignedInteger: aByteArray startingAt: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDCountCommand >> key: aByteArray [ 
 	key := aByteArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCountCommand >> keyNotFound [
 	self keyNotFound: key asString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCountCommand >> setProtocol: aProtocol [
 	super setProtocol: aProtocol.
 	value := ByteArray with:  49 "$1 asciiValue"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDCountCommand >> value: aByteArray [ 
 	value := aByteArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCountCommand >> writeToProtocol [
 	protocol space.
 	protocol nextPutAll: key.

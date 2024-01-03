@@ -23,15 +23,17 @@ intervals (by passing 0 to the first, 10 to the second, 20 to the
 third, etc. etc.).
 "
 Class {
-	#name : #MDFlushCommand,
-	#superclass : #MDCommand,
+	#name : 'MDFlushCommand',
+	#superclass : 'MDCommand',
 	#instVars : [
 		'delay'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDFlushCommand >> decodeResponse: aByteArray [
 	super decodeResponse: aByteArray.
 	aByteArray = (ByteArray with: 79 with: 75)"'OK' asByteArray"
@@ -39,18 +41,18 @@ MDFlushCommand >> decodeResponse: aByteArray [
 	^true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDFlushCommand >> delay: aByteArray [ 
 	delay := aByteArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDFlushCommand >> setProtocol: aProtocol [
 	super setProtocol: aProtocol.
 	delay := ByteArray with: 48 "$0 asciiValue"
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDFlushCommand >> writeToProtocol [
 	protocol nextPutAll: #[102 108 117 115 104 95 97 108 108]. "'flush_all' asByteArray"
 	protocol endCommand

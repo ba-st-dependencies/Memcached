@@ -2,17 +2,19 @@
 Superclass of commands that return multiple lines
 "
 Class {
-	#name : #MDMultilineCommand,
-	#superclass : #MDCommand,
-	#category : #'Memcached-Commands'
+	#name : 'MDMultilineCommand',
+	#superclass : 'MDCommand',
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDMultilineCommand >> decodeLine: aByteArray [
 	self subclassResponsibility
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDMultilineCommand >> executeOnProtocol [
 	self writeToProtocol.
 	^Array streamContents: [ :stream |

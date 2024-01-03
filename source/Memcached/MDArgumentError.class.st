@@ -2,7 +2,9 @@
 Thrown when there is an argument error
 "
 Class {
-	#name : #MDArgumentError,
-	#superclass : #MDError,
-	#category : #'Memcached-Exceptions'
+	#name : 'MDArgumentError',
+	#superclass : 'MDError',
+	#category : 'Memcached-Exceptions',
+	#package : 'Memcached',
+	#tag : 'Exceptions'
 }

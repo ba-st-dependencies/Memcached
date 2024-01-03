@@ -2,12 +2,14 @@
 Common functionality for retrieval commands
 "
 Class {
-	#name : #MDRetrievalCommand,
-	#superclass : #MDMultilineCommand,
-	#category : #'Memcached-Commands'
+	#name : 'MDRetrievalCommand',
+	#superclass : 'MDMultilineCommand',
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDRetrievalCommand >> decodeLine: aByteArray [
 	| header key flags bytes data codec end |
 	header := aByteArray first: 6.
@@ -22,13 +24,13 @@ MDRetrievalCommand >> decodeLine: aByteArray [
 	^MDItem key: key flags: flags data: data
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDRetrievalCommand >> decodeResponse: anArray [
 	"nothing to do, already done"
 	^anArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDRetrievalCommand >> writeToProtocol [
 	protocol nextPutAll: #[103 101 116]. "'get' asByteArray"
 	protocol space

@@ -2,32 +2,34 @@
 I am the internal codec.
 "
 Class {
-	#name : #MDInternalCodec,
-	#superclass : #Object,
-	#category : #'Memcached-Core'
+	#name : 'MDInternalCodec',
+	#superclass : 'Object',
+	#category : 'Memcached-Core',
+	#package : 'Memcached',
+	#tag : 'Core'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDInternalCodec >> argumentError: aString [
 	MDArgumentError signal: aString
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 MDInternalCodec >> asDateAndTime: anInteger [
 	^(DateAndTime year: 1970 month: 1 day: 1 hour: 0 minute: 0 second: 0 offset: (Duration seconds: 0)) + (Duration seconds: anInteger)
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 MDInternalCodec >> asDuration: anInteger [
 	^Duration seconds: anInteger
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> decodeAsciiString: aByteArray [
 	^self decodeAsciiString: aByteArray startingAt: 1
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> decodeAsciiString: aByteArray startingAt: anInteger [
 	| buffer totalSize |
 	totalSize := aByteArray size.
@@ -41,7 +43,7 @@ MDInternalCodec >> decodeAsciiString: aByteArray startingAt: anInteger [
 	^buffer contents
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> decodeSecondsMilliseconds: aByteArray [
 	| split |
 	split := self firstNonNumericIn: aByteArray startingAt: 1.
@@ -50,12 +52,12 @@ MDInternalCodec >> decodeSecondsMilliseconds: aByteArray [
 		microseconds: (self decodeUnsignedInteger: aByteArray startingAt: split + 1)
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> decodeUnsignedInteger: aByteArray [
 	^self decodeUnsignedInteger: aByteArray startingAt: 1
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> decodeUnsignedInteger: aByteArray startingAt: anInteger [
 	| buffer totalSize |
 	totalSize := aByteArray size.
@@ -69,7 +71,7 @@ MDInternalCodec >> decodeUnsignedInteger: aByteArray startingAt: anInteger [
 	^buffer
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 MDInternalCodec >> encodeIntegerToByteArray: anInteger [
 	| decimal bytes |
 	decimal := anInteger printStringBase: 10.
@@ -79,7 +81,7 @@ MDInternalCodec >> encodeIntegerToByteArray: anInteger [
 	^bytes
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 MDInternalCodec >> encodeUInt32: anInteger [
 	anInteger < 0
 		ifTrue: [ self argumentError: 'can only encode positive integers' ].
@@ -88,7 +90,7 @@ MDInternalCodec >> encodeUInt32: anInteger [
 	^self encodeIntegerToByteArray: anInteger
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 MDInternalCodec >> encodeUInt64: anInteger [
 	anInteger < 0
 		ifTrue: [ self argumentError: 'can only encode positive integers' ].
@@ -97,7 +99,7 @@ MDInternalCodec >> encodeUInt64: anInteger [
 	^self encodeIntegerToByteArray: anInteger
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 MDInternalCodec >> firstNonNumericIn: aByteArray startingAt: anInteger [
 	| index each |
 	index := anInteger.
@@ -109,12 +111,12 @@ MDInternalCodec >> firstNonNumericIn: aByteArray startingAt: anInteger [
 	^index
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 MDInternalCodec >> seconds: secondsInteger [
 	^self seconds: secondsInteger microseconds: 0
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 MDInternalCodec >> seconds: secondsInteger microseconds: microsecondsInteger [
 	^Duration seconds: secondsInteger nanoSeconds: 1000 * microsecondsInteger
 ]

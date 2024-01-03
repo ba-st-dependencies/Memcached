@@ -2,10 +2,12 @@
 (unimplemented placeholder)
 "
 Class {
-	#name : #MDMultipleRetrievalCommand,
-	#superclass : #MDRetrievalCommand,
+	#name : 'MDMultipleRetrievalCommand',
+	#superclass : 'MDRetrievalCommand',
 	#instVars : [
 		'keys'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }

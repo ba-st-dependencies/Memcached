@@ -54,8 +54,8 @@ bytes
 	it's followed by an empty data block).
 "
 Class {
-	#name : #MDStorageCommand,
-	#superclass : #MDCommand,
+	#name : 'MDStorageCommand',
+	#superclass : 'MDCommand',
 	#instVars : [
 		'name',
 		'key',
@@ -64,20 +64,22 @@ Class {
 		'data',
 		'bytes'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #actions }
+{ #category : 'actions' }
 MDStorageCommand >> add [
 	name :=  #[97 100 100] "'add' asByteArray"
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStorageCommand >> argumentError: aString [
 	MDArgumentError signal: aString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStorageCommand >> data: aByteArray [
 	aByteArray size > 16r100000
 		ifTrue: [ self argumentError: 'can not store more than 1 MiB' ].
@@ -85,7 +87,7 @@ MDStorageCommand >> data: aByteArray [
 	bytes := protocol codec encodeIntegerToByteArray: aByteArray size
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStorageCommand >> decodeResponse: aByteArray [
 	super decodeResponse: aByteArray.
 	(aByteArray = (ByteArray withAll: #(83 84 79 82 69 68))) "'STORED' asByteArray"
@@ -95,37 +97,37 @@ MDStorageCommand >> decodeResponse: aByteArray [
 	protocol protocolError
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStorageCommand >> expiration [
 	^expiration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStorageCommand >> expiration: anInteger [ 
 	expiration := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStorageCommand >> flags: anInteger [ 
 	flags := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStorageCommand >> key: anInteger [ 
 	key := anInteger
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 MDStorageCommand >> replace [
 	name :=  #[114 101 112 108 97 99 101] "'replace' asByteArray"
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 MDStorageCommand >> set [
 	name :=  ByteArray with: 115 with: 101 with: 116 "'set' asByteArray"
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStorageCommand >> setProtocol: aProtocol [
 	super setProtocol: aProtocol.
 	expiration := ByteArray with: 48. "$0 asciiValue"
@@ -133,7 +135,7 @@ MDStorageCommand >> setProtocol: aProtocol [
 	data := ByteArray new
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStorageCommand >> writeToProtocol [
 	"<command name> <key> <flags> <exptime> <bytes>\r\n"
 	protocol nextPutAll: name.

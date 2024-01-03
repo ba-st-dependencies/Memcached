@@ -3,12 +3,14 @@ A MDVersionCommand is a command the returns the the version string for the serve
 
 "
 Class {
-	#name : #MDVersionCommand,
-	#superclass : #MDCommand,
-	#category : #'Memcached-Commands'
+	#name : 'MDVersionCommand',
+	#superclass : 'MDCommand',
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDVersionCommand >> decodeResponse: aByteArray [
 	super decodeResponse: aByteArray.
 	"VERSION <version>"
@@ -17,7 +19,7 @@ MDVersionCommand >> decodeResponse: aByteArray [
 	^protocol codec decodeAsciiString: aByteArray startingAt: 9
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDVersionCommand >> writeToProtocol [
 	"version\r\n"
 	protocol nextPutAll: #[118 101 114 115 105 111 110]. "'version' asByteArray"

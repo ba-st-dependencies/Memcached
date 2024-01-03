@@ -81,20 +81,22 @@ limit_maxbytes    32u      Number of bytes this server is allowed to
                            use for storage. 
 "
 Class {
-	#name : #MDStatisticsCommand,
-	#superclass : #MDMultilineCommand,
+	#name : 'MDStatisticsCommand',
+	#superclass : 'MDMultilineCommand',
 	#instVars : [
 		'arguments'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatisticsCommand >> arguments: aByteArray [ 
 	arguments := aByteArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStatisticsCommand >> decodeLine: aByteArray [
 	| name value size |
 	(aByteArray beginsWith: (ByteArray withAll: #(83 84 65 84))) "'STAT' asByteArray"
@@ -105,7 +107,7 @@ MDStatisticsCommand >> decodeLine: aByteArray [
 	^Array with: name with: value
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStatisticsCommand >> decodeResponse: anArray [
 	"nothing to do, already done"
 	| stats codec processId uptime time version userTime systemTime currentItems totalItems bytesUsed currentConnections totalConnections connectionStructures retrievalRequests storageRequests hits misses evictions bytesRead bytesWritten maximumBytes zero pointerSize |
@@ -160,7 +162,7 @@ MDStatisticsCommand >> decodeResponse: anArray [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDStatisticsCommand >> writeToProtocol [
 	protocol nextPutAll: #[115 116 97 116 115]. "'stats' asByteArray"
 	arguments isNil ifFalse: [
