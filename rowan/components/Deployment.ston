@@ -1,0 +1,21 @@
+RwSimpleProjectLoadComponentV2 {
+  #name : 'Deployment',
+  #projectNames : [ 
+    'ObjectPool',
+    'Zinc'
+  ],
+  #componentNames : [ ],
+  #packageNames : [
+    'Memcached'
+  ],
+  #conditionalPackageMapSpecs : {
+    'gemstone' : {
+      'allusers' : {
+        #packageNameToPlatformPropertiesMap : {
+          'Memcached' : { 'symbolDictName' : 'Memcached' }
+        }
+      }
+    }
+  },
+  #comment : ''
+}

@@ -1,0 +1,14 @@
+RwLoadSpecificationV2 {
+  #specName: 'Memcached-CI',
+  #projectName : 'Memcached',
+  #diskUrl : 'Memcached',
+  #projectSpecFile : 'rowan/project.ston',
+  #componentNames : [
+    'Tests'
+  ],
+  #customConditionalAttributes : [
+    'tests',
+    'sunit'
+  ],
+  #comment : 'Loading spec for the continuous integration setup'
+}
