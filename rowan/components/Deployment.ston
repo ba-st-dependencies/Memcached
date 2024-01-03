@@ -6,13 +6,15 @@ RwSimpleProjectLoadComponentV2 {
   ],
   #componentNames : [ ],
   #packageNames : [
-    'Memcached'
+    'Memcached',
+    'Memcached-GS64'
   ],
   #conditionalPackageMapSpecs : {
     'gemstone' : {
       'allusers' : {
         #packageNameToPlatformPropertiesMap : {
-          'Memcached' : { 'symbolDictName' : 'Memcached' }
+          'Memcached' : { 'symbolDictName' : 'Memcached' },
+          'Memcached-GS64' : { 'symbolDictName' : 'Memcached' }
         }
       }
     }
