@@ -1,12 +1,4 @@
-Class {
-	#name : 'SharedQueue',
-	#superclass : 'Object',
-	#instVars : [
-		'queue'
-	],
-	#category : 'Memcached-GS64',
-	#package : 'Memcached-GS64'
-}
+Extension { #name : 'SharedQueue' }
 
 { #category : '*Memcached-GS64' }
 SharedQueue >> findFirst: matchBlock [
