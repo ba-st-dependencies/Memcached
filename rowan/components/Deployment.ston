@@ -15,7 +15,7 @@ RwSimpleProjectLoadComponentV2 {
       'allusers' : {
         #packageNameToPlatformPropertiesMap : {
           'Memcached' : { 'symbolDictName' : 'Memcached' },
-          'Memcached-GS64' : { 'symbolDictName' : 'Memcached' }
+          'Memcached-GS64' : { 'symbolDictName' : 'Globals' }
         }
       }
     }
