@@ -12,13 +12,16 @@ jobs:
           - Pharo64-10
           - Pharo64-11
     name: ${{ matrix.smalltalk }}
+    services:
+      memcached:
+        image: memcached:1.6.7-alpine
+        ports:
+          - 127.0.0.1:11211:11211
     steps:
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - name: Start memcached
-        run: docker run -d -p 127.0.0.1:11211:11211 memcached:1.6.7-alpine
       - name: Load Image and Run Tests
         run: smalltalkci -s ${{ matrix.smalltalk }}
         env:
