@@ -1,6 +1,6 @@
 Extension { #name : 'SharedQueue' }
 
-{ #category : '*Memcached-GS64' }
+{ #category : '*Memcached-GS64-Extensions' }
 SharedQueue >> findFirst: matchBlock [
 
 	^ self isEmpty
