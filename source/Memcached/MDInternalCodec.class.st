@@ -74,7 +74,7 @@ MDInternalCodec >> decodeUnsignedInteger: aByteArray startingAt: anInteger [
 { #category : 'encoding' }
 MDInternalCodec >> encodeIntegerToByteArray: anInteger [
 	| decimal bytes |
-	decimal := anInteger printStringBase: 10.
+	decimal := anInteger printString.
 	bytes := ByteArray new: decimal size.
 	1 to: decimal size do: [ :index |
 		bytes at: index put: (decimal at: index) asciiValue ].
