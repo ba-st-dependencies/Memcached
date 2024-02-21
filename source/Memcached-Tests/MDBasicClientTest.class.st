@@ -27,12 +27,12 @@ MDBasicClientTest >> testAddValue [
 
 	| client |
 
-	client := MDBasicClient new.
+	client := self newClient.
 	[ client add: 'foo1' value: #[1 2 3].
 	self assert: (client get: 'foo1') equals: #[1 2 3] ]
 		ensure: [ client close ].
 
-	client := MDBasicClient new.
+	client := self newClient.
 	[ client add: 'foo1' value: 'other value'.
 	self assert: (client get: 'foo1') equals: #[1 2 3] ]
 		ensure: [ client close ]
