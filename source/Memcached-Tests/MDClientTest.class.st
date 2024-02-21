@@ -11,7 +11,7 @@ Class {
 	#package : 'Memcached-Tests'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 MDClientTest class >> isAbstract [
 	^ self name = #MDClientTest
 ]

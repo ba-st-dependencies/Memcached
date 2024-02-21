@@ -1,5 +1,5 @@
 RwLoadSpecificationV2 {
-  #specName: 'Memcached-CI',
+  #specName: 'Memcached-Deployment',
   #projectName : 'Memcached',
   #diskUrl : 'Memcached',
   #projectSpecFile : 'rowan/project.ston',

@@ -9,12 +9,12 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 MDSettings >> noStringEncoding [
 	^false
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 MDSettings >> use32BitFlags [
 	^false
 ]
