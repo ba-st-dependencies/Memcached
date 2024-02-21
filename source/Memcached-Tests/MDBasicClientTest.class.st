@@ -64,19 +64,18 @@ MDBasicClientTest >> testDecrement [
 MDBasicClientTest >> testEncoderDecoder [
 
 	| client |
-
 	client := MDBasicClient new.
-	client 
-		encoder: [ :object | object printString asByteArray ];
-		decoder: [ :byteArray | Object readFrom: byteArray asString ].
+	client
+		encoder: [ :object | (STON toString: object) utf8Encoded ];
+		decoder: [ :bytes | STON fromString: bytes utf8Decoded ].
 	[
-		client set: 'string' value: 'aStringValue'.
-		self assert: (client get: 'string') equals: 'aStringValue'.
-		client set: 'integer' value: 123456.
-		self assert: (client get: 'integer') equals: 123456.
-		client set: 'boolean' value: true.
-		self assert: (client get: 'boolean') equals: true.
-	] ensure: [ client close ]
+	client set: 'string' value: 'aStringValue'.
+	self assert: (client get: 'string') equals: 'aStringValue'.
+	client set: 'integer' value: 123456.
+	self assert: (client get: 'integer') equals: 123456.
+	client set: 'boolean' value: true.
+	self assert: (client get: 'boolean') equals: true ] ensure: [
+		client close ]
 ]
 
 { #category : 'testing' }
