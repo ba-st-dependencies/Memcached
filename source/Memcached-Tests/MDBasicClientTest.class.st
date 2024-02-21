@@ -11,7 +11,7 @@ Class {
 { #category : 'support' }
 MDBasicClientTest >> newClient [
 
-	^ OSPlatform current
+	^ LanguagePlatform current os
 		  environmentAt: 'CI_MEMCACHED_HOSTNAME'
 		  ifPresent: [ :hostname |
 			  MDBasicClient on: ( MDProtocolBuilder new
