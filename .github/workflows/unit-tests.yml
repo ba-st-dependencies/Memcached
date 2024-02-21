@@ -1,16 +1,19 @@
-name: Build
-
-on: [push, pull_request,workflow_dispatch]
-
+name: Pharo Unit Tests
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
 jobs:
    build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        smalltalk: [ Pharo64-11, Pharo64-10, Pharo64-9.0, Pharo64-8.0, Pharo64-7.0 ]
+        smalltalk:
+          - Pharo64-10
+          - Pharo64-11
     name: ${{ matrix.smalltalk }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
@@ -24,5 +27,5 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          name: Build-${{matrix.smalltalk}}
+          name: Unit-Tests-${{matrix.smalltalk}}
           token: ${{ secrets.CODECOV_TOKEN }}
