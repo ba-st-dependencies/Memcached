@@ -7,12 +7,17 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     name: GS64 Unit Tests
+    services:
+      memcached:
+        image: memcached:1.6.7-alpine
+        ports:
+          - 11211:11211
     steps:
       - uses: actions/checkout@v4
-      - name: Start memcached
-        run: docker run -d -p 127.0.0.1:11211:11211 memcached:1.6.7-alpine
       - name: Load Image and Run Tests
         uses: ba-st-actions/gs64-ci@v2
         with:
           project_name: 'Memcached'
           run_tests: 'true'
+        env:
+          CI_MEMCACHED_HOSTNAME: memcached
