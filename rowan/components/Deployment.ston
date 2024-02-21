@@ -2,7 +2,7 @@ RwSimpleProjectLoadComponentV2 {
   #name : 'Deployment',
   #postloadDoitName : 'scripts/configureMaterializationAndSerialization',
   #projectNames : [
-		'Buoy',
+    'Buoy',
     'ObjectPool',
     'Zinc'
   ],
@@ -20,6 +20,5 @@ RwSimpleProjectLoadComponentV2 {
         }
       }
     }
-  },
-  #comment : ''
+  }
 }
