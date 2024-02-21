@@ -3,7 +3,7 @@ Abstract parent for MDClient unit tests
 "
 Class {
 	#name : 'MDClientTest',
-	#superclass : 'TestCase',
+	#superclass : 'MDTest',
 	#instVars : [
 		'cache'
 	],
@@ -37,10 +37,9 @@ MDClientTest >> sampleObject [
 { #category : 'running' }
 MDClientTest >> serverList [
 
-	^ LanguagePlatform current os
-		  environmentAt: 'CI_MEMCACHED_HOSTNAME'
-		  ifPresent: [ :hostname | { '<1s>:11211' expandMacrosWith: hostname } ]
-		  ifAbsent: [ #( '127.0.0.1:11211' ) ]
+	^ self
+		  withCIHostNameDo: [ :hostname | { ( '<1s>:11211' expandMacrosWith: hostname ) } ]
+		  else: [ #( '127.0.0.1:11211' ) ]
 ]
 
 { #category : 'running' }

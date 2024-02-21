@@ -3,7 +3,7 @@ Unit tests for MDServer
 "
 Class {
 	#name : 'MDProtocolBuilderTest',
-	#superclass : 'TestCase',
+	#superclass : 'MDTest',
 	#category : 'Memcached-Tests',
 	#package : 'Memcached-Tests'
 }
@@ -24,28 +24,43 @@ MDProtocolBuilderTest >> testServerAddress [
 
 	| protocol |
 
-	protocol := MDProtocolBuilder new
-		host: '127.0.0.1';
-		port: 11211;
-		build.
+	protocol := self
+		            withCIHostNameDo: [ :hostname |
+			            MDProtocolBuilder new
+				            host: hostname;
+				            port: 11211;
+				            build
+			            ]
+		            else: [
+			            MDProtocolBuilder new
+				            host: '127.0.0.1';
+				            port: 11211;
+				            build
+			            ].
 
-	self
-		withVersionOf: protocol
-		do: [ :version | self assertVersion: version ]
+	self withVersionOf: protocol do: [ :version | self assertVersion: version ]
 ]
 
 { #category : 'testing' }
 MDProtocolBuilderTest >> testServerName [
-	
+
 	| protocol |
-	
-	protocol := MDProtocolBuilder new
-		host: 'localhost'; 
-		port: 11211;
-		build.
-		
-	self withVersionOf: protocol do: [ :version |
-		self assertVersion: version ]
+
+	protocol := self
+		            withCIHostNameDo: [ :hostname |
+			            MDProtocolBuilder new
+				            host: hostname;
+				            port: 11211;
+				            build
+			            ]
+		            else: [
+			            MDProtocolBuilder new
+				            host: 'localhost';
+				            port: 11211;
+				            build
+			            ].
+
+	self withVersionOf: protocol do: [ :version | self assertVersion: version ]
 ]
 
 { #category : 'private' }

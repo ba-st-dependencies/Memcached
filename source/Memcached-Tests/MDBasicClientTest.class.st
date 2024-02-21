@@ -3,7 +3,7 @@ Unit tests for MDBasicClient
 "
 Class {
 	#name : 'MDBasicClientTest',
-	#superclass : 'TestCase',
+	#superclass : 'MDTest',
 	#category : 'Memcached-Tests',
 	#package : 'Memcached-Tests'
 }
@@ -11,15 +11,14 @@ Class {
 { #category : 'support' }
 MDBasicClientTest >> newClient [
 
-	^ LanguagePlatform current os
-		  environmentAt: 'CI_MEMCACHED_HOSTNAME'
-		  ifPresent: [ :hostname |
+	^ self
+		  withCIHostNameDo: [ :hostname |
 			  MDBasicClient on: ( MDProtocolBuilder new
 					    host: hostname;
 					    port: MDProtocolBuilder defaultPort;
 					    build )
 			  ]
-		  ifAbsent: [ MDBasicClient new ]
+		  else: [ MDBasicClient new ]
 ]
 
 { #category : 'tests' }

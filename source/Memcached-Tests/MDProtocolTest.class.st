@@ -3,7 +3,7 @@ Unit tests for MDProtocol
 "
 Class {
 	#name : 'MDProtocolTest',
-	#superclass : 'TestCase',
+	#superclass : 'MDTest',
 	#instVars : [
 		'protocol',
 		'data',
@@ -17,15 +17,14 @@ Class {
 MDProtocolTest >> setUp [
 
 	super setUp.
-	protocol := LanguagePlatform current os
-		            environmentAt: 'CI_MEMCACHED_HOSTNAME'
-		            ifPresent: [ :hostname |
+	protocol := self
+		            withCIHostNameDo: [ :hostname |
 			            MDProtocolBuilder new
 				            host: hostname;
 				            port: MDProtocolBuilder defaultPort;
 				            build
 			            ]
-		            ifAbsent: [ MDProtocolBuilder buildDefault ].
+		            else: [ MDProtocolBuilder buildDefault ].
 	key := #[ 107 101 121 ].
 	data := #[ 49 51 51 55 ]
 ]
