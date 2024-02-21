@@ -16,13 +16,18 @@ Class {
 { #category : 'running' }
 MDProtocolTest >> setUp [
 
-	protocol := MDProtocolBuilder buildDefault.
-	key := ByteArray with: 107 with: 101 with: 121.
-	data := ByteArray
-		with: 49
-		with: 51
-		with: 51
-		with: 55
+	super setUp.
+	protocol := LanguagePlatform current os
+		            environmentAt: 'CI_MEMCACHED_HOSTNAME'
+		            ifPresent: [ :hostname |
+			            MDProtocolBuilder new
+				            host: hostname;
+				            port: MDProtocolBuilder defaultPort;
+				            build
+			            ]
+		            ifAbsent: [ MDProtocolBuilder buildDefault ].
+	key := #[ 107 101 121 ].
+	data := #[ 49 51 51 55 ]
 ]
 
 { #category : 'running' }

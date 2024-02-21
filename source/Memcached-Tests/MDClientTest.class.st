@@ -36,7 +36,11 @@ MDClientTest >> sampleObject [
 
 { #category : 'running' }
 MDClientTest >> serverList [
-	self subclassResponsibility
+
+	^ LanguagePlatform current os
+		  environmentAt: 'CI_MEMCACHED_HOSTNAME'
+		  ifPresent: [ :hostname | { '<1s>:11211' expandMacrosWith: hostname } ]
+		  ifAbsent: [ #( '127.0.0.1:11211' ) ]
 ]
 
 { #category : 'running' }
