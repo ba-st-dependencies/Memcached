@@ -2,12 +2,13 @@
 Unit tests for MDBasicClient
 "
 Class {
-	#name : #MDBasicClientTest,
-	#superclass : #TestCase,
-	#category : #'Memcached-Tests'
+	#name : 'MDBasicClientTest',
+	#superclass : 'TestCase',
+	#category : 'Memcached-Tests',
+	#package : 'Memcached-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testAddValue [
 
 	| client |
@@ -23,7 +24,7 @@ MDBasicClientTest >> testAddValue [
 		ensure: [ client close ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testConvenience [
 
 	| client |
@@ -39,7 +40,7 @@ MDBasicClientTest >> testConvenience [
 	] ensure: [ client close ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testDecrement [
 
 	| client |
@@ -59,7 +60,7 @@ MDBasicClientTest >> testDecrement [
 	client delete: #counter
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testEncoderDecoder [
 
 	| client |
@@ -78,7 +79,7 @@ MDBasicClientTest >> testEncoderDecoder [
 	] ensure: [ client close ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testIncrement [
 
 	| client |
@@ -98,7 +99,7 @@ MDBasicClientTest >> testIncrement [
 	client delete: #counter
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testReplaceValue [
 
 	| client |
@@ -111,7 +112,7 @@ MDBasicClientTest >> testReplaceValue [
 			client close ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDBasicClientTest >> testSetGet [
 
 	| client |
@@ -122,7 +123,7 @@ MDBasicClientTest >> testSetGet [
 		ensure: [ client close ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MDBasicClientTest >> testStats [
 
 	| client |

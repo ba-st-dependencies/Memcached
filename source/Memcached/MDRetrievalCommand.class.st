@@ -12,7 +12,7 @@ Class {
 { #category : 'private' }
 MDRetrievalCommand >> decodeLine: aByteArray [
 	| header key flags bytes data codec end |
-	header := aByteArray first: 6.
+	header := aByteArray copyFirst: 6.
 	(header = (ByteArray withAll: #(86 65 76 85 69 32))) "'VALUE ' asByteArray"
 		ifFalse: [ protocol protocolError ].
 	codec := protocol codec.

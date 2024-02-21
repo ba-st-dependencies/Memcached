@@ -25,7 +25,7 @@ MDProtocolBuilder class >> buildDefault [
 { #category : 'accessing defaults' }
 MDProtocolBuilder class >> defaultHost [
 
-	^ #(127 0 0 1) asByteArray
+	^ '127.0.0.1'
 ]
 
 { #category : 'accessing defaults' }
@@ -38,10 +38,15 @@ MDProtocolBuilder class >> defaultPort [
 MDProtocolBuilder >> build [
 
 	| stream |
-
 	stream := host isString
-		ifTrue: [ SocketStream openConnectionToHostNamed: host port: port ]
-		ifFalse: [ SocketStream openConnectionToHost: host port: port ].
+		          ifTrue: [
+			          ZnNetworkingUtils default socketStreamClass
+				          openConnectionToHostNamed: host
+				          port: port ]
+		          ifFalse: [
+			          ZnNetworkingUtils default socketStreamClass
+				          openConnectionToHost: host
+				          port: port ].
 	^ MDProtocol on: stream
 ]
 

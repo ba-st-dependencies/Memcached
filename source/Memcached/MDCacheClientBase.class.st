@@ -203,8 +203,8 @@ MDCacheClientBase >> serverList: aList [
 	serverList := aList
 		collect: [ :e | 
 			| server |
-			server := e splitOn: ':'.
-			((server first splitOn: '.') collect: [ :n | n asNumber ]) -> server second ]
+			server := ':' split: e.
+			(( '.' split: server first) collect: [ :n | n asNumber ]) -> server second ]
 ]
 
 { #category : 'protocol' }
@@ -249,23 +249,24 @@ MDCacheClientBase >> setCounter: aString value: anInteger [
 { #category : 'private' }
 MDCacheClientBase >> startServer: anIp onPort: aPort [
 
-	| retries |
+	| retries ipString |
 	retries := 0.
 
-	^ self class
-		serverAt: (anIp joinUsing: '.') , ':' , aPort asString
-		ifAbsent: [ [ retries := retries + 1.
-			MDProtocolBuilder new
-				host: anIp asByteArray;
-				port: aPort;
-				build ]
-				on: ConnectionTimedOut
-				do: [ :signal | 
-					retries > self class defaultConnectionRetries
-						ifTrue: [ self removeDeadServerIp: anIp port: aPort.
-							^ nil ].
-					100 milliSeconds asDelay wait.
-					signal retry ] ]
+	ipString := '.' join: anIp.
+	^ self class serverAt: ipString , ':' , aPort asString ifAbsent: [
+		  [
+		  retries := retries + 1.
+		  MDProtocolBuilder new
+			  host: ipString;
+			  port: aPort;
+			  build ]
+			  on: ConnectionTimedOut
+			  do: [ :signal |
+				  retries > self class defaultConnectionRetries ifTrue: [
+					  self removeDeadServerIp: anIp port: aPort.
+					  ^ nil ].
+				  (Delay forMilliseconds: 100) wait.
+				  signal retry ] ]
 ]
 
 { #category : 'private' }

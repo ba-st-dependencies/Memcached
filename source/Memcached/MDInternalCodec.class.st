@@ -48,7 +48,7 @@ MDInternalCodec >> decodeSecondsMilliseconds: aByteArray [
 	| split |
 	split := self firstNonNumericIn: aByteArray startingAt: 1.
 	^self
-		seconds: (self decodeUnsignedInteger: (aByteArray first: split - 1))
+		seconds: (self decodeUnsignedInteger: (aByteArray copyFirst: split - 1))
 		microseconds: (self decodeUnsignedInteger: aByteArray startingAt: split + 1)
 ]
 
@@ -118,5 +118,6 @@ MDInternalCodec >> seconds: secondsInteger [
 
 { #category : 'converting' }
 MDInternalCodec >> seconds: secondsInteger microseconds: microsecondsInteger [
-	^Duration seconds: secondsInteger nanoSeconds: 1000 * microsecondsInteger
+
+	^ Duration seconds: secondsInteger + (microsecondsInteger / 1000000)
 ]

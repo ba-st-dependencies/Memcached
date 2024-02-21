@@ -1,1 +1,1 @@
-Package { #name : #'Memcached-Tests' }
+Package { #name : 'Memcached-Tests' }

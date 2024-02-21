@@ -2,17 +2,18 @@
 Unit tests for MDProtocol
 "
 Class {
-	#name : #MDProtocolTest,
-	#superclass : #TestCase,
+	#name : 'MDProtocolTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'protocol',
 		'data',
 		'key'
 	],
-	#category : #'Memcached-Tests'
+	#category : 'Memcached-Tests',
+	#package : 'Memcached-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> setUp [
 
 	protocol := MDProtocolBuilder buildDefault.
@@ -24,13 +25,13 @@ MDProtocolTest >> setUp [
 		with: 55
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> tearDown [
 
 	protocol quit execute
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testAdd [
 
 	| item expected |
@@ -47,7 +48,7 @@ MDProtocolTest >> testAdd [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testCount [
 
 	| countKey count |
@@ -77,7 +78,7 @@ MDProtocolTest >> testCount [
 	self assert: count = 0.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testFlow [
 
 	| hasAdded hasDeleted hasReplaced |
@@ -101,13 +102,13 @@ MDProtocolTest >> testFlow [
 	self assert: hasDeleted.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testFlushAll [
 
 	protocol flushAll execute
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testNoKey [
 
 	protocol delete key: key, #(100); execute.
@@ -115,7 +116,7 @@ MDProtocolTest >> testNoKey [
 	self should: [ protocol decr key: key, #(100); execute ] raise: MDKeyNotFoundError.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDProtocolTest >> testStats [
 
 	| stats |

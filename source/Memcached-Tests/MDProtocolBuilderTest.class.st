@@ -2,12 +2,13 @@
 Unit tests for MDServer
 "
 Class {
-	#name : #MDProtocolBuilderTest,
-	#superclass : #TestCase,
-	#category : #'Memcached-Tests'
+	#name : 'MDProtocolBuilderTest',
+	#superclass : 'TestCase',
+	#category : 'Memcached-Tests',
+	#package : 'Memcached-Tests'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDProtocolBuilderTest >> assertVersion: aString [
 
 	self 		
@@ -18,13 +19,13 @@ MDProtocolBuilderTest >> assertVersion: aString [
 		description: 'This test requires at least version 1.5.0 released in 2017-7-21'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDProtocolBuilderTest >> testServerAddress [
 
 	| protocol |
 
 	protocol := MDProtocolBuilder new
-		host: #(127 0 0 1) asByteArray;
+		host: '127.0.0.1';
 		port: 11211;
 		build.
 
@@ -33,7 +34,7 @@ MDProtocolBuilderTest >> testServerAddress [
 		do: [ :version | self assertVersion: version ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDProtocolBuilderTest >> testServerName [
 	
 	| protocol |
@@ -47,7 +48,7 @@ MDProtocolBuilderTest >> testServerName [
 		self assertVersion: version ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDProtocolBuilderTest >> withVersionOf: aProtocol do: aOneArgumentBlock [
 
 	[ aOneArgumentBlock value: aProtocol version execute ]
