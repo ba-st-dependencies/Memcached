@@ -185,10 +185,10 @@ MDCacheClientBase >> remove: aString [
 ]
 
 { #category : 'private' }
-MDCacheClientBase >> removeDeadServerIp: anIp port: aPort [
+MDCacheClientBase >> removeDeadServerIp: hostNameOrIp port: aPort [
 	"if you don't kill dead servers, then when one dies your site will fall over continually
 	trying to reconnect to it"
-	serverList := serverList reject: [ :each | each key = anIp and: [ each value = aPort asString ] ]
+	serverList := serverList reject: [ :each | each key = hostNameOrIp and: [ each value = aPort asString ] ]
 ]
 
 { #category : 'private' }
@@ -204,7 +204,7 @@ MDCacheClientBase >> serverList: aList [
 		collect: [ :e | 
 			| server |
 			server := ':' split: e.
-			(( '.' split: server first) collect: [ :n | n asNumber ]) -> server second ]
+			server first -> server second ]
 ]
 
 { #category : 'protocol' }
@@ -247,26 +247,30 @@ MDCacheClientBase >> setCounter: aString value: anInteger [
 ]
 
 { #category : 'private' }
-MDCacheClientBase >> startServer: anIp onPort: aPort [
+MDCacheClientBase >> startServer: hostnameOrIp onPort: aPort [
 
-	| retries ipString |
+	| retries |
+
 	retries := 0.
 
-	ipString := '.' join: anIp.
-	^ self class serverAt: ipString , ':' , aPort asString ifAbsent: [
+	^ self class serverAt: hostnameOrIp , ':' , aPort asString ifAbsent: [
 		  [
 		  retries := retries + 1.
 		  MDProtocolBuilder new
-			  host: ipString;
+			  host: hostnameOrIp;
 			  port: aPort;
-			  build ]
+			  build
+		  ]
 			  on: ConnectionTimedOut
 			  do: [ :signal |
 				  retries > self class defaultConnectionRetries ifTrue: [
-					  self removeDeadServerIp: anIp port: aPort.
-					  ^ nil ].
-				  (Delay forMilliseconds: 100) wait.
-				  signal retry ] ]
+					  self removeDeadServerIp: hostnameOrIp port: aPort.
+					  ^ nil
+					  ].
+				  ( Delay forMilliseconds: 100 ) wait.
+				  signal retry
+				  ]
+		  ]
 ]
 
 { #category : 'private' }
