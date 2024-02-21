@@ -10,8 +10,6 @@ jobs:
     services:
       memcached:
         image: memcached:1.6.7-alpine
-        ports:
-          - "127.0.0.1:11211:11211"
     steps:
       - uses: actions/checkout@v4
       - name: Load Image and Run Tests
