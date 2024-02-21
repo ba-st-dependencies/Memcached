@@ -34,6 +34,7 @@ MDCacheClientBase class >> defaultConnectionRetries [
 { #category : 'class initialization' }
 MDCacheClientBase class >> initialize [
 
+	<ignoreForCoverage>
 	self
 		materializationAction: [ :bytes | self error: 'No materializer found' ]
 		serializationAction: [ :object | self error: 'No serializer found' ]
@@ -42,6 +43,7 @@ MDCacheClientBase class >> initialize [
 { #category : 'class initialization' }
 MDCacheClientBase class >> materializationAction: aMaterializationBlock serializationAction: aSerializationBlock [
 
+	<ignoreForCoverage>
 	materializationAction := aMaterializationBlock.
 	serializationAction := aSerializationBlock
 ]
