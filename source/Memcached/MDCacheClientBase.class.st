@@ -225,7 +225,7 @@ MDCacheClientBase >> set: aString value: aValue expires: aDuration [
 			(self serverForKey: aString) set
 				key: aString asByteArray;
 				data: serialized;
-				expiration: (aDuration ifNil: [ 0 seconds ]) asSeconds asString asByteArray;
+				expiration: (aDuration ifNil: [ 0 seconds ]) asSeconds truncated asString asByteArray;
 				execute ].
 	aValue ]
 		on: Error
