@@ -8,7 +8,21 @@ Class {
 	#package : 'Memcached-Tests'
 }
 
-{ #category : 'testing' }
+{ #category : 'support' }
+MDBasicClientTest >> newClient [
+
+	^ OSPlatform current
+		  environmentAt: 'CI_MEMCACHED_HOSTNAME'
+		  ifPresent: [ :hostname |
+			  MDBasicClient on: ( MDProtocolBuilder new
+					    host: hostname;
+					    port: MDProtocolBuilder defaultPort;
+					    build )
+			  ]
+		  ifAbsent: [ MDBasicClient new ]
+]
+
+{ #category : 'tests' }
 MDBasicClientTest >> testAddValue [
 
 	| client |
@@ -24,7 +38,7 @@ MDBasicClientTest >> testAddValue [
 		ensure: [ client close ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testConvenience [
 
 	| client |
@@ -40,7 +54,7 @@ MDBasicClientTest >> testConvenience [
 	] ensure: [ client close ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testDecrement [
 
 	| client |
@@ -60,7 +74,7 @@ MDBasicClientTest >> testDecrement [
 	client delete: #counter
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testEncoderDecoder [
 
 	| client |
@@ -78,7 +92,7 @@ MDBasicClientTest >> testEncoderDecoder [
 		client close ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testIncrement [
 
 	| client |
@@ -98,7 +112,7 @@ MDBasicClientTest >> testIncrement [
 	client delete: #counter
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testReplaceValue [
 
 	| client |
@@ -111,7 +125,7 @@ MDBasicClientTest >> testReplaceValue [
 			client close ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'tests' }
 MDBasicClientTest >> testSetGet [
 
 	| client |
