@@ -9,10 +9,12 @@ level
 
 "
 Class {
-	#name : #MDVerbosityCommand,
-	#superclass : #MDCommand,
+	#name : 'MDVerbosityCommand',
+	#superclass : 'MDCommand',
 	#instVars : [
 		'level'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }

@@ -15,30 +15,32 @@ My 'operations' protocol has methods named according to memcached commands,
 my 'convenience' protocol has methods named according to Smalltalk conventions.
 "
 Class {
-	#name : #MDBasicClient,
-	#superclass : #Object,
+	#name : 'MDBasicClient',
+	#superclass : 'Object',
 	#instVars : [
 		'server',
 		'protocol',
 		'encoder',
 		'decoder'
 	],
-	#category : #'Memcached-Client'
+	#category : 'Memcached-Client',
+	#package : 'Memcached',
+	#tag : 'Client'
 }
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 MDBasicClient class >> new [
 
 	^ self on: MDProtocolBuilder buildDefault
 ]
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 MDBasicClient class >> on: aProtocol [
 
 	^ super new initializeOn: aProtocol
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> add: key value: value [
 	"Store value under key, but only if key does not already exist.
 	Return a boolean indicating whether a store was actually done."
@@ -51,14 +53,14 @@ MDBasicClient >> add: key value: value [
 	^ add execute
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> at: key [
 	"Return the data stored under key or signal MDKeyNotFoundError"
 	
 	^ self get: key
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> at: key add: value [
 	"Store value under key, but only when key is not yet present.
 	Return a boolean indicating actual storage."
@@ -66,7 +68,7 @@ MDBasicClient >> at: key add: value [
 	^ self add: key value: value
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> at: key ifAbsent: block [
 	"Return the value stored under key, execute block if not key is found."
 
@@ -79,7 +81,7 @@ MDBasicClient >> at: key ifAbsent: block [
 	^ found
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> at: key ifAbsentPut: block [
 	"The conventional Smalltalk cache method: 
 	lookup the value stored under key and return it if found,
@@ -89,7 +91,7 @@ MDBasicClient >> at: key ifAbsentPut: block [
 	^ self at: key ifAbsent: [ self at: key put: block value ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> at: key put: value [
 	"Store value under key and return value."
 	
@@ -97,7 +99,7 @@ MDBasicClient >> at: key put: value [
 	^ value
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 MDBasicClient >> close [
 
 	protocol notNil 
@@ -106,14 +108,14 @@ MDBasicClient >> close [
 			protocol := nil ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDBasicClient >> decode: byteArray [
 	^ decoder isNil
 		ifTrue: [ byteArray ]
 		ifFalse: [ decoder value: byteArray ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 MDBasicClient >> decoder: block [
 	"Set my decoder, a one argument block to convert 
 	a byte array to a Smalltalk object. Can be nil."
@@ -121,7 +123,7 @@ MDBasicClient >> decoder: block [
 	decoder := block
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> decrement: key [
 	"Assuming the value stored under key is the ASCII representation of an integer,
 	decrement the value and return it. Signals MDKeyNotFoundError if key is not found."
@@ -132,7 +134,7 @@ MDBasicClient >> decrement: key [
 	^ decr execute
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> delete: key [
 	"Delete the value stored under key.
 	Return true when the key was found and deleted, false otherwise."
@@ -143,14 +145,14 @@ MDBasicClient >> delete: key [
 	^ delete execute
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDBasicClient >> encode: object [
 	^ encoder isNil
 		ifTrue: [ object ]
 		ifFalse: [ encoder value: object ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 MDBasicClient >> encoder: block [
 	"Set my encoder, a one argument block to convert 
 	a Smalltalk object to a byte array. Can be nil."
@@ -158,14 +160,14 @@ MDBasicClient >> encoder: block [
 	encoder := block
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> flushAll [
 	"Remove all entries from the cache (in a lazy manner)."
 	
 	^ self protocol flushAll execute
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> get: key [
 	"Return the data stored under key. 
 	Signals MDKeyNotFoundError if key is not found."
@@ -176,7 +178,7 @@ MDBasicClient >> get: key [
 	^ self decode: get execute data
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> includesKey: key [
 	"Return a boolean indicating whether or not I have data stored under key"
 
@@ -186,7 +188,7 @@ MDBasicClient >> includesKey: key [
 		do: [ :signal | signal return: false ]
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> increment: key [
 	"Assuming the value stored under key is the ASCII representation of an integer,
 	increment the value and return it. Signals MDKeyNotFoundError if key is not found."
@@ -197,26 +199,26 @@ MDBasicClient >> increment: key [
 	^ incr execute
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 MDBasicClient >> initializeOn: aProtocol [
 
 	protocol := aProtocol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDBasicClient >> protocol [
 
 	^ protocol
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> removeAll [
 	"Remove all my keys, return self"
 	
 	self flushAll
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 MDBasicClient >> removeKey: key [
 	"Remove any data that I store under key.
 	Contrary to the Smalltalk convention to return the value if found,
@@ -225,7 +227,7 @@ MDBasicClient >> removeKey: key [
 	^ self delete: key
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> replace: key value: value [
 	"Store value under key, but only if key does already exist.
 	Return a boolean indicating whether a store was actually done."
@@ -238,7 +240,7 @@ MDBasicClient >> replace: key value: value [
 	^ replace execute
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> set: key value: value [
 	"Store value under key. Return a boolean indicating success."
 	
@@ -250,7 +252,7 @@ MDBasicClient >> set: key value: value [
 	^ set execute
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 MDBasicClient >> stats [
 	"Return an MDStatistic object containing interesting data regarding the memcached server"
 	

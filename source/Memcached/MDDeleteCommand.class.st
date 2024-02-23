@@ -24,16 +24,18 @@ time
 
 "
 Class {
-	#name : #MDDeleteCommand,
-	#superclass : #MDCommand,
+	#name : 'MDDeleteCommand',
+	#superclass : 'MDCommand',
 	#instVars : [
 		'key',
 		'time'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDDeleteCommand >> decodeResponse: aByteArray [
 	super decodeResponse: aByteArray.
 	(aByteArray = (ByteArray withAll: #(68 69 76 69 84 69 68))) "'DELETED' asByteArray"
@@ -43,18 +45,18 @@ MDDeleteCommand >> decodeResponse: aByteArray [
 	protocol protocolError
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDDeleteCommand >> key: aString [ 
 	key := aString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDDeleteCommand >> setProtocol: aProtocol [
 	super setProtocol: aProtocol.
 	time := (ByteArray with: 0)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDDeleteCommand >> writeToProtocol [
 	"delete <key> <time>\r\n"
 	protocol nextPutAll: #[100 101 108 101 116 101]. "'delete' asByteArray"

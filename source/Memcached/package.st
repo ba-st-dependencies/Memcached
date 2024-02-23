@@ -1,1 +1,1 @@
-Package { #name : #Memcached }
+Package { #name : 'Memcached' }

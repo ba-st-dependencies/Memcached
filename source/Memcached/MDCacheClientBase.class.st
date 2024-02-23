@@ -2,68 +2,77 @@
 Common abstract memcached client
 "
 Class {
-	#name : #MDCacheClientBase,
-	#superclass : #Object,
+	#name : 'MDCacheClientBase',
+	#superclass : 'Object',
 	#instVars : [
 		'servers',
 		'serverList',
 		'lock'
 	],
+	#classVars : [
+		'materializationAction',
+		'serializationAction'
+	],
 	#classInstVars : [
 		'serverPool'
 	],
-	#category : #'Memcached-Client'
+	#category : 'Memcached-Client',
+	#package : 'Memcached',
+	#tag : 'Client'
 }
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 MDCacheClientBase class >> defaultConnectionLifetime [
 	^ 10 minutes
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 MDCacheClientBase class >> defaultConnectionRetries [
 	^ 5
 ]
 
-{ #category : #accessing }
-MDCacheClientBase class >> materialize: bytes [
-	Smalltalk 
-		at: #FLMaterializer 
-		ifPresent: [ :fuelMaterializer | 
-			^ fuelMaterializer materializeFromByteArray: bytes ].
-	Smalltalk 
-		at: #ReferenceStream
-		ifPresent: [ :referenceStream | 
-			^ referenceStream unStream: bytes ].
-	self error: 'No materializer found'
+{ #category : 'class initialization' }
+MDCacheClientBase class >> initialize [
+
+	<ignoreForCoverage>
+	self
+		materializationAction: [ :bytes | self error: 'No materializer found' ]
+		serializationAction: [ :object | self error: 'No serializer found' ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'class initialization' }
+MDCacheClientBase class >> materializationAction: aMaterializationBlock serializationAction: aSerializationBlock [
+
+	<ignoreForCoverage>
+	materializationAction := aMaterializationBlock.
+	serializationAction := aSerializationBlock
+]
+
+{ #category : 'accessing' }
+MDCacheClientBase class >> materialize: bytes [
+
+	^ materializationAction value: bytes
+]
+
+{ #category : 'instance creation' }
 MDCacheClientBase class >> onServers: aList [
 	^ (self new)
 		serverList: aList;
 		yourself
 ]
 
-{ #category : #'socket-pool' }
+{ #category : 'socket-pool' }
 MDCacheClientBase class >> returnServer: aServer [
 	^ self serverPool nextPut: aServer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDCacheClientBase class >> serialize: object [
-	Smalltalk 
-		at: #FLSerializer 
-		ifPresent: [ :fuelSerializer | 
-			^ fuelSerializer serializeToByteArray: object ].
-	Smalltalk 
-		at: #ReferenceStream
-		ifPresent: [ :referenceStream | 
-			^ referenceStream streamedRepresentationOf: object ].
-	self error: 'No serializer found'
+
+	^ serializationAction value: object
 ]
 
-{ #category : #'socket-pool' }
+{ #category : 'socket-pool' }
 MDCacheClientBase class >> serverAt: aKey ifAbsent: aBlock [
 
 	| found |
@@ -77,26 +86,26 @@ MDCacheClientBase class >> serverAt: aKey ifAbsent: aBlock [
 	^ self serverAt: aKey ifAbsent: aBlock
 ]
 
-{ #category : #'socket-pool' }
+{ #category : 'socket-pool' }
 MDCacheClientBase class >> serverPool [
 	^ serverPool ifNil: [ serverPool := SharedQueue new ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> assertServers [
 
 	serverList
 		ifNil: [ Error signal: 'Memcache servers not configured!' ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> close [
 	servers ifNil: [ ^ self ].
 	(servers reject: [ :e | e isNil ]) do: [ :e | self class returnServer: e ].
 	servers := nil
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> decrement: aString [
 	self assertServers.
 	^ self
@@ -106,7 +115,7 @@ MDCacheClientBase >> decrement: aString [
 				execute ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> get: aString [
 
 	self assertServers.
@@ -121,19 +130,19 @@ MDCacheClientBase >> get: aString [
 		do: [ :signal | signal return: nil ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> get: aString ifAbsentPut: aBlock [
 	self assertServers.
 	^ (self get: aString) ifNil: [ self set: aString value: aBlock value ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> get: aString ifAbsentPut: aBlock expires: aDuration [
 	self assertServers.
 	^ (self get: aString) ifNil: [ self set: aString value: aBlock value expires: aDuration ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> increment: aString [
 	self assertServers.
 	^ [ 
@@ -148,12 +157,12 @@ MDCacheClientBase >> increment: aString [
 			signal retry ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> lock [
 	^ lock ifNil: [ lock := Monitor new ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> open [
 
 	self assertServers.
@@ -162,7 +171,7 @@ MDCacheClientBase >> open [
 		select: [ :signal | signal notNil ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> remove: aString [
 	
 	self assertServers.
@@ -177,36 +186,36 @@ MDCacheClientBase >> remove: aString [
 		do: [ :signal | signal return: nil ]
 ]
 
-{ #category : #private }
-MDCacheClientBase >> removeDeadServerIp: anIp port: aPort [
+{ #category : 'private' }
+MDCacheClientBase >> removeDeadServerIp: hostNameOrIp port: aPort [
 	"if you don't kill dead servers, then when one dies your site will fall over continually
 	trying to reconnect to it"
-	serverList := serverList reject: [ :each | each key = anIp and: [ each value = aPort asString ] ]
+	serverList := serverList reject: [ :each | each key = hostNameOrIp and: [ each value = aPort asString ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> serverForKey: aKey [
 	"hash the key to one of the servers in the pool"
 	^ (servers at: aKey hash \\ servers size + 1) third
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDCacheClientBase >> serverList: aList [
 
 	serverList := aList
 		collect: [ :e | 
 			| server |
-			server := e splitOn: ':'.
-			((server first splitOn: '.') collect: [ :n | n asNumber ]) -> server second ]
+			server := ':' split: e.
+			server first -> server second ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> set: aString value: aValue [
 
 	^ self set: aString value: aValue expires: nil
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> set: aString value: aValue expires: aDuration [
 
 	| serialized |
@@ -218,14 +227,14 @@ MDCacheClientBase >> set: aString value: aValue expires: aDuration [
 			(self serverForKey: aString) set
 				key: aString asByteArray;
 				data: serialized;
-				expiration: (aDuration ifNil: [ 0 seconds ]) asSeconds asString asByteArray;
+				expiration: (aDuration ifNil: [ 0 seconds ]) asSeconds truncated asString asByteArray;
 				execute ].
 	aValue ]
 		on: Error
 		do: [:signal | signal return: aValue ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClientBase >> setCounter: aString value: anInteger [
 
 	self assertServers.
@@ -239,29 +248,34 @@ MDCacheClientBase >> setCounter: aString value: anInteger [
 		do: [ :signal | signal return: anInteger ]
 ]
 
-{ #category : #private }
-MDCacheClientBase >> startServer: anIp onPort: aPort [
+{ #category : 'private' }
+MDCacheClientBase >> startServer: hostnameOrIp onPort: aPort [
 
 	| retries |
+
 	retries := 0.
 
-	^ self class
-		serverAt: (anIp joinUsing: '.') , ':' , aPort asString
-		ifAbsent: [ [ retries := retries + 1.
-			MDProtocolBuilder new
-				host: anIp asByteArray;
-				port: aPort;
-				build ]
-				on: ConnectionTimedOut
-				do: [ :signal | 
-					retries > self class defaultConnectionRetries
-						ifTrue: [ self removeDeadServerIp: anIp port: aPort.
-							^ nil ].
-					100 milliSeconds asDelay wait.
-					signal retry ] ]
+	^ self class serverAt: hostnameOrIp , ':' , aPort asString ifAbsent: [
+		  [
+		  retries := retries + 1.
+		  MDProtocolBuilder new
+			  host: hostnameOrIp;
+			  port: aPort;
+			  build
+		  ]
+			  on: ConnectionTimedOut
+			  do: [ :signal |
+				  retries > self class defaultConnectionRetries ifTrue: [
+					  self removeDeadServerIp: hostnameOrIp port: aPort.
+					  ^ nil
+					  ].
+				  ( Delay forMilliseconds: 100 ) wait.
+				  signal retry
+				  ]
+		  ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClientBase >> whileConnected: aBlock [
 	| retried |
 	^ self lock

@@ -1,0 +1,24 @@
+RwSimpleProjectLoadComponentV2 {
+  #name : 'Deployment',
+  #postloadDoitName : 'scripts/configureMaterializationAndSerialization',
+  #projectNames : [
+    'Buoy',
+    'ObjectPool',
+    'Zinc'
+  ],
+  #componentNames : [ ],
+  #packageNames : [
+    'Memcached',
+    'Memcached-GS64-Extensions'
+  ],
+  #conditionalPackageMapSpecs : {
+    'gemstone' : {
+      'allusers' : {
+        #packageNameToPlatformPropertiesMap : {
+          'Memcached' : { 'symbolDictName' : 'Memcached' },
+          'Memcached-GS64-Extensions' : { 'symbolDictName' : 'Globals' }
+        }
+      }
+    }
+  }
+}

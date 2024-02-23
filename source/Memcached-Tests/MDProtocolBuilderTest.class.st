@@ -2,12 +2,13 @@
 Unit tests for MDServer
 "
 Class {
-	#name : #MDProtocolBuilderTest,
-	#superclass : #TestCase,
-	#category : #'Memcached-Tests'
+	#name : 'MDProtocolBuilderTest',
+	#superclass : 'MDTest',
+	#category : 'Memcached-Tests',
+	#package : 'Memcached-Tests'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDProtocolBuilderTest >> assertVersion: aString [
 
 	self 		
@@ -18,36 +19,51 @@ MDProtocolBuilderTest >> assertVersion: aString [
 		description: 'This test requires at least version 1.5.0 released in 2017-7-21'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDProtocolBuilderTest >> testServerAddress [
 
 	| protocol |
 
-	protocol := MDProtocolBuilder new
-		host: #(127 0 0 1) asByteArray;
-		port: 11211;
-		build.
+	protocol := self
+		            withCIHostNameDo: [ :hostname |
+			            MDProtocolBuilder new
+				            host: hostname;
+				            port: 11211;
+				            build
+			            ]
+		            else: [
+			            MDProtocolBuilder new
+				            host: '127.0.0.1';
+				            port: 11211;
+				            build
+			            ].
 
-	self
-		withVersionOf: protocol
-		do: [ :version | self assertVersion: version ]
+	self withVersionOf: protocol do: [ :version | self assertVersion: version ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MDProtocolBuilderTest >> testServerName [
-	
+
 	| protocol |
-	
-	protocol := MDProtocolBuilder new
-		host: 'localhost'; 
-		port: 11211;
-		build.
-		
-	self withVersionOf: protocol do: [ :version |
-		self assertVersion: version ]
+
+	protocol := self
+		            withCIHostNameDo: [ :hostname |
+			            MDProtocolBuilder new
+				            host: hostname;
+				            port: 11211;
+				            build
+			            ]
+		            else: [
+			            MDProtocolBuilder new
+				            host: 'localhost';
+				            port: 11211;
+				            build
+			            ].
+
+	self withVersionOf: protocol do: [ :version | self assertVersion: version ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDProtocolBuilderTest >> withVersionOf: aProtocol do: aOneArgumentBlock [
 
 	[ aOneArgumentBlock value: aProtocol version execute ]

@@ -89,8 +89,8 @@ version
 
 "
 Class {
-	#name : #MDStatistic,
-	#superclass : #Object,
+	#name : 'MDStatistic',
+	#superclass : 'Object',
 	#instVars : [
 		'processId',
 		'uptime',
@@ -114,215 +114,217 @@ Class {
 		'maximumBytes',
 		'pointerSize'
 	],
-	#category : #'Memcached-Core'
+	#category : 'Memcached-Core',
+	#package : 'Memcached',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesRead [
 	^bytesRead
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesRead: anInteger [ 
 	bytesRead := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesUsed [
 	^bytesUsed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesUsed: anInteger [ 
 	bytesUsed := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesWritten [
 	^bytesWritten
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> bytesWritten: anInteger [ 
 	bytesWritten := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> connectionStructures [
 	^connectionStructures
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> connectionStructures: anInteger [ 
 	connectionStructures := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> currentConnections [
 	^currentConnections
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> currentConnections: anInteger [ 
 	currentConnections := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> currentItems [
 	^currentItems
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> currentItems: anInteger [ 
 	currentItems := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> evictions [
 	^evictions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> evictions: anInteger [ 
 	evictions := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> hits [
 	^hits
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> hits: anInteger [ 
 	hits := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> maximumBytes [
 	^maximumBytes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> maximumBytes: anInteger [ 
 	maximumBytes := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> misses [
 	^misses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> misses: anInteger [ 
 	misses := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> pointerSize [
 	^pointerSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> pointerSize: anInteger [ 
 	pointerSize := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> processId [
 	^processId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> processId: anInteger [ 
 	processId := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> retrievalRequests [
 	^retrievalRequests
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> retrievalRequests: anInteger [ 
 	retrievalRequests := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> storageRequests [
 	^storageRequests
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> storageRequests: anInteger [ 
 	storageRequests := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> systemTime [
 	^systemTime
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> systemTime: aDuration [ 
 	systemTime := aDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> time [
 	^time
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> time: aDateAndTime [ 
 	time := aDateAndTime
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> totalConnections [
 	^totalConnections
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> totalConnections: anInteger [ 
 	totalConnections := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> totalItems [
 	^totalItems
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> totalItems: anInteger [ 
 	totalItems := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> uptime [
 	^uptime
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> uptime: aDuration [ 
 	uptime := aDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> userTime [
 	^userTime
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> userTime: aDuration [ 
 	userTime := aDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> version [
 	^version
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDStatistic >> version: aString [ 
 	version := aString
 ]

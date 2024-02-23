@@ -1,0 +1,21 @@
+RwSimpleProjectLoadComponentV2 {
+  #name : 'Tests',
+  #condition : 'tests',
+  #projectNames : [ ],
+  #componentNames : [
+    'Deployment'
+  ],
+  #packageNames : [
+    'Memcached-Tests'
+  ],
+  #conditionalPackageMapSpecs : {
+    'gemstone' : {
+      'allusers' : {
+        #packageNameToPlatformPropertiesMap : {
+          'Memcached-Tests' : { 'symbolDictName' : 'Memcached' }
+        }
+      }
+    }
+  },
+  #comment : ''
+}

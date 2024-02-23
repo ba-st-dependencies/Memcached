@@ -10,12 +10,14 @@ space-padded at the end, but this is purely an implementation
 optimization, so you also shouldn't rely on that.
 "
 Class {
-	#name : #MDDecrementCommand,
-	#superclass : #MDCountCommand,
-	#category : #'Memcached-Commands'
+	#name : 'MDDecrementCommand',
+	#superclass : 'MDCountCommand',
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDDecrementCommand >> writeToProtocol [
 	"decr <key> <value>\r\n"
 	protocol nextPutAll: #[100 101 99 114]. "decr' asByteArray"

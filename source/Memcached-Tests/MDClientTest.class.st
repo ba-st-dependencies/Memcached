@@ -2,25 +2,26 @@
 Abstract parent for MDClient unit tests
 "
 Class {
-	#name : #MDClientTest,
-	#superclass : #TestCase,
+	#name : 'MDClientTest',
+	#superclass : 'MDTest',
 	#instVars : [
 		'cache'
 	],
-	#category : #'Memcached-Tests'
+	#category : 'Memcached-Tests',
+	#package : 'Memcached-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'testing' }
 MDClientTest class >> isAbstract [
 	^ self name = #MDClientTest
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> clientClass [
 	self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> sampleObject [
 
 	^ OrderedCollection new
@@ -33,18 +34,21 @@ MDClientTest >> sampleObject [
 		asArray
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> serverList [
-	self subclassResponsibility
+
+	^ self
+		  withCIHostNameDo: [ :hostname | { ( '<1s>:11211' expandMacrosWith: hostname ) } ]
+		  else: [ #( '127.0.0.1:11211' ) ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> setUp [
 	super setUp.
 	cache := self clientClass onServers: self serverList
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testBigSet [
 	| bigList |
 	bigList := (1 to: 1000) collect:[:e | self sampleObject ].
@@ -53,7 +57,7 @@ MDClientTest >> testBigSet [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testBigSetExpires [
 	| bigList |
 	bigList := (1 to: 1000) collect:[:e | self sampleObject ].
@@ -62,7 +66,7 @@ MDClientTest >> testBigSetExpires [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testDecrement [
 	cache setCounter: #someKey value: 10.
 	self assert: 9 equals: (cache decrement: #someKey) .
@@ -72,19 +76,19 @@ MDClientTest >> testDecrement [
 	self assert: 5 equals: (cache decrement: #someKey) 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testForgotToSetServers [
 	cache := self clientClass new.
 	self should: [ cache get: #someKey ] raise: Error
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testGetIfAbsentPut [
 	cache remove: #testObjectAbsent.
 	self assert: (cache get: #testObjectAbsent ifAbsentPut: [ 'string' ]) equals: 'string'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testGetIfAbsentPutExactMatch [
 	| object |
 	cache remove: #testObjectAbsent.
@@ -92,7 +96,7 @@ MDClientTest >> testGetIfAbsentPutExactMatch [
 	self assert: (cache get: #testObjectAbsent ifAbsentPut: [ object ]) == object
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testGetIfAbsentPutExactMatchExpires [
 	| object |
 	cache remove: #testObjectAbsent.
@@ -100,19 +104,19 @@ MDClientTest >> testGetIfAbsentPutExactMatchExpires [
 	self assert: (cache get: #testObjectAbsent ifAbsentPut: [ object ] expires: 10 seconds) == object
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testGetIfAbsentPutExpires [
 	cache remove: #testObjectAbsent.
 	self assert: (cache get: #testObjectAbsent ifAbsentPut: [ 'string' ] expires: 1 seconds) equals: 'string'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testGetNotFound [
 	self assert: (cache get: #testObjectNotSet) isNil.
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testIncrement [
 	cache setCounter: #someKey value: 0.
 	self assert: 1 equals: (cache increment: #someKey).
@@ -122,7 +126,7 @@ MDClientTest >> testIncrement [
 	self assert: 5 equals: (cache increment: #someKey)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testNilSetGet [
 	| cached |
 	cache set: #testObject value: nil.
@@ -130,7 +134,7 @@ MDClientTest >> testNilSetGet [
 	self assert: cached isNil
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testRemove [
 	cache set: #testObject value: 'string'.
 	self deny: (cache get: #testObject) isNil.
@@ -139,26 +143,26 @@ MDClientTest >> testRemove [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testSetCounterResult [
 	self assert: 1 equals: (cache setCounter: #testObject value: 1)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testSetExpires [
+
 	cache set: #testObject value: 'string' expires: 1 seconds.
 	self deny: (cache get: #testObject) isNil.
-	2 seconds asDelay wait.
-	self assert: (cache get: #testObject) isNil.
-
+	2 seconds wait.
+	self assert: (cache get: #testObject) isNil
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testSetExpiresResult [
 	self assert: 'string' equals: (cache set: #testObject value: 'string' expires: 1 seconds)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testSetGet [
 	| obj cached |
 	obj := self sampleObject.
@@ -167,7 +171,7 @@ MDClientTest >> testSetGet [
 	self assert: obj equals: cached
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MDClientTest >> testSetResult [
 	self assert: 'string' equals: (cache set: #testObject value: 'string')
 ]

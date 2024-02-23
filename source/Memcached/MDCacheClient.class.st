@@ -2,17 +2,19 @@
 I am the basic memcache client for memcache 1.2.6 or less.
 "
 Class {
-	#name : #MDCacheClient,
-	#superclass : #MDCacheClientBase,
-	#category : #'Memcached-Client'
+	#name : 'MDCacheClient',
+	#superclass : 'MDCacheClientBase',
+	#category : 'Memcached-Client',
+	#package : 'Memcached',
+	#tag : 'Client'
 }
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 MDCacheClient class >> defaultStaleTime [
 	^ 5 seconds
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClient >> get: aString [
 	"when a get goes stale, reset the value with a stale flag to expire shortly, this prevents
 	other gets from all stampeeding the database for fresh data all at once"
@@ -35,7 +37,7 @@ MDCacheClient >> get: aString [
 	^ result third
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 MDCacheClient >> set: aString value: aValue expires: aDuration [
 	
 	^ self
@@ -45,7 +47,7 @@ MDCacheClient >> set: aString value: aValue expires: aDuration [
 		refreshed: false
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCacheClient >> set: aString value: aValue expires: aDuration refreshed: isRefreshed [
 	"embed the actual expire time in the data and add an additional stale time to
 	memcached timeout to prevent stampeed when key expires; get does the opposite"

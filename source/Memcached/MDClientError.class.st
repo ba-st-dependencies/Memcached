@@ -3,7 +3,9 @@ Means some sort of client error in the input line, i.e. the input doesn't confor
 
 "
 Class {
-	#name : #MDClientError,
-	#superclass : #MDError,
-	#category : #'Memcached-Exceptions'
+	#name : 'MDClientError',
+	#superclass : 'MDError',
+	#category : 'Memcached-Exceptions',
+	#package : 'Memcached',
+	#tag : 'Exceptions'
 }

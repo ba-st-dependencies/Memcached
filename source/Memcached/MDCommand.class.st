@@ -2,46 +2,48 @@
 Abstract superclass of all memcached protocl commands
 "
 Class {
-	#name : #MDCommand,
-	#superclass : #Object,
+	#name : 'MDCommand',
+	#superclass : 'Object',
 	#instVars : [
 		'protocol'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 MDCommand class >> on: aProtocol [
 	^self new setProtocol: aProtocol
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCommand >> decodeResponse: aByteArray [
 	protocol checkServerError: aByteArray
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 MDCommand >> execute [
 	^self decodeResponse: (protocol execute: self)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCommand >> executeOnProtocol [
 	self writeToProtocol.
 	^protocol readResponse
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCommand >> keyNotFound: aString [
 	MDKeyNotFoundError signal: 'key not found: ', aString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCommand >> setProtocol: aProtocol [
 	protocol := aProtocol
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDCommand >> writeToProtocol [
 	self subclassResponsibility
 ]

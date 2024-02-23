@@ -2,15 +2,17 @@
 Retrieve the value of a single key
 "
 Class {
-	#name : #MDSingleRetrievalCommand,
-	#superclass : #MDRetrievalCommand,
+	#name : 'MDSingleRetrievalCommand',
+	#superclass : 'MDRetrievalCommand',
 	#instVars : [
 		'key'
 	],
-	#category : #'Memcached-Commands'
+	#category : 'Memcached-Commands',
+	#package : 'Memcached',
+	#tag : 'Commands'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 MDSingleRetrievalCommand >> executeOnProtocol [
 	| result |
 	result := super executeOnProtocol.
@@ -18,17 +20,17 @@ MDSingleRetrievalCommand >> executeOnProtocol [
 	^result at: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MDSingleRetrievalCommand >> key: aString [ 
 	key := aString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDSingleRetrievalCommand >> keyNotFound [
 	self keyNotFound: key asString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MDSingleRetrievalCommand >> writeToProtocol [
 	"get <key>*\r\n"
 	super writeToProtocol.

@@ -2,7 +2,9 @@
 Superclass of all memcached client errors
 "
 Class {
-	#name : #MDError,
-	#superclass : #Error,
-	#category : #'Memcached-Exceptions'
+	#name : 'MDError',
+	#superclass : 'Error',
+	#category : 'Memcached-Exceptions',
+	#package : 'Memcached',
+	#tag : 'Exceptions'
 }
