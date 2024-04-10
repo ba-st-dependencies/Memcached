@@ -4,9 +4,9 @@ on:
   - pull_request
   - workflow_dispatch
 jobs:
-  unit-tests:
+  unit-tests-3_7_0:
     runs-on: ubuntu-latest
-    name: GS64 Unit Tests
+    name: GS64 3.7.0 Unit Tests
     services:
       memcached:
         image: memcached:1.6.7-alpine
@@ -19,3 +19,13 @@ jobs:
           run_tests: 'true'
         env:
           CI_MEMCACHED_HOSTNAME: memcached
+  unit-tests-3_7_1:
+    runs-on: ubuntu-latest
+    name: GS64 3.7.1 Unit Tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load Image and Run Tests
+        uses: ba-st-actions/gs64-ci@v3
+        with:
+          project_name: 'Memcached'
+          run_tests: 'true'
