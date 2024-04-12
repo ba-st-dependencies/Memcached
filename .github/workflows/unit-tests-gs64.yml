@@ -32,3 +32,5 @@ jobs:
         with:
           project_name: 'Memcached'
           run_tests: 'true'
+        env:
+          CI_MEMCACHED_HOSTNAME: memcached
