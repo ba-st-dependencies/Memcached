@@ -22,6 +22,9 @@ jobs:
   unit-tests-3_7_1:
     runs-on: ubuntu-latest
     name: GS64 3.7.1 Unit Tests
+    services:
+      memcached:
+        image: memcached:1.6.7-alpine
     steps:
       - uses: actions/checkout@v4
       - name: Load Image and Run Tests
