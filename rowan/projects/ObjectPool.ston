@@ -2,7 +2,7 @@ RwLoadSpecificationV2 {
   #specName: 'ObjectPool',
   #projectName : 'ObjectPool',
   #gitUrl : 'https://github.com/ba-st-dependencies/ObjectPool.git',
-  #revision : 'v2',
+  #revision : 'v3',
   #projectSpecFile : 'rowan/project.ston',
   #componentNames : [
     'Deployment'
